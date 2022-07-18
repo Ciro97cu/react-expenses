@@ -36,16 +36,24 @@ const ExpenseForm = (props) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        const expenseData = {
-            title: enteredTitle,
-            amount: +enteredAmount,
-            date: new Date(enteredDate)
+        if (enteredTitle.trim().length === 0 || enteredAmount.trim().length === 0 || enteredDate.trim().length === 0) {
+            alert("Compila i campi")
+        } else if (isNaN(enteredAmount)) {
+            alert("Inserisci un numero")
+        } else if (enteredAmount < 0) {
+            alert("Inserisci un importo positivo")
+        } else {
+            const expenseData = {
+                title: enteredTitle,
+                amount: +enteredAmount,
+                date: new Date(enteredDate)
+            }
+            props.onSaveExpenseData(expenseData);
+            setEnteredTitle("");
+            setEnteredAmount("");
+            setEnteredDate("");
+            props.onDisplayForm()
         }
-        props.onSaveExpenseData(expenseData);
-        setEnteredTitle("");
-        setEnteredAmount("");
-        setEnteredDate("");
-        props.onDisplayForm()
     };
 
     return (
